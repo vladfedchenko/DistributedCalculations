@@ -10,7 +10,7 @@ def mapEdges(word):
 	split_res = word.split(" ")
 	return [(split_res[0], split_res[1]), (split_res[1], split_res[0])]
 
-edges_all = text_file.flatMap(mapEdges)
+edges_all = text_file.flatMap(mapEdges).distinct()
 
 edges_to_triangle = edges_all.join(edges_all) \
 		.filter(lambda x: x[1][0] != x[1][1]) \
@@ -25,11 +25,11 @@ trian_num = edges_all.map(lambda x: (x[0] + '-' + x[1], -1)) \
 		.reduce(add)
 trian_num /= 6
 
-#out = open('output.txt', 'w')
+out = open('output.txt', 'w')
 
 #for x in edges_all.collect():
-#out.write(str(trian_num) + "\n")
+out.write(str(trian_num) + "\n")
 
-#out.close()
+out.close()
 
 print trian_num
